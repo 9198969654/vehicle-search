@@ -26,6 +26,7 @@ public class ManufacturerController {
     @GetMapping
     public ResponseEntity<List<Manufacturer>> getAllManufacturers(){
         List<Manufacturer> savedManufacturers =  manufacturerService.fetchAllManufacturers();
+
         return ResponseEntity.status(HttpStatus.OK).body(savedManufacturers);
     }
 }
