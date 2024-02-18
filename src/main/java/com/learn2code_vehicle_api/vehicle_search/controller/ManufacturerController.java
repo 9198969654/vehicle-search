@@ -2,6 +2,7 @@ package com.learn2code_vehicle_api.vehicle_search.controller;
 
 
 import com.learn2code_vehicle_api.vehicle_search.entity.Manufacturer;
+import com.learn2code_vehicle_api.vehicle_search.exception.ManufacturerNotFoundException;
 import com.learn2code_vehicle_api.vehicle_search.service.impl.ManufacturerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,9 +32,11 @@ public class ManufacturerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Manufacturer> getManufacturerBasedOnId(@PathVariable int id) {
-        // Retrieve manufacturer from the database
+    public ResponseEntity<Manufacturer> getManufacturerBasedOnId(@PathVariable int id) throws ManufacturerNotFoundException {
         Manufacturer dbManufacturer = manufacturerService.getManufactureForId(id);
+        if (dbManufacturer == null){
+            throw new ManufacturerNotFoundException("No Manufacturer found for ID- : " +id);
+        }
         return ResponseEntity.ok(dbManufacturer);
     }
 }

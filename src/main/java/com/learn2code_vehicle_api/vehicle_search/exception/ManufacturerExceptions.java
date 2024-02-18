@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class ManufacturerExceptions {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(ManufacturerNotFoundException.class)  // Remove the semicolon and fix the typo here
+    @ExceptionHandler(ManufacturerNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleManufacturerNotFound(ManufacturerNotFoundException ex) {
         ErrorResponse response = new ErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
