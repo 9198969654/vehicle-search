@@ -34,6 +34,16 @@ public class ManufacturerController {
     public ResponseEntity<Manufacturer> getManufacturerBasedOnId(@PathVariable int id) {
         // Retrieve manufacturer from the database
         Manufacturer dbManufacturer = manufacturerService.getManufactureForId(id);
+
+
+        if (dbManufacturer == null){
+            throw new ManufacturerNotFoundException("No manufacturer found for ID- " +id);
+
+
+        if(dbManufacturer == null){
+            throw new ManufacturerNotFoundException("NoManufacturer found for ID-" +id);
+        }
+
         return ResponseEntity.ok(dbManufacturer);
     }
 }
