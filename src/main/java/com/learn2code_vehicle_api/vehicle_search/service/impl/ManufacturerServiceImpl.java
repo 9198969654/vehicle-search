@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -35,4 +36,18 @@ public class ManufacturerServiceImpl implements ManufacturerService{
                }
         return null;
     }
+
+    @Override
+    public Manufacturer updateManufacturer(int id,Manufacturer updatedManufacturer) {
+        Manufacturer dbManufacturer = getManufactureForId(id);
+
+        if (dbManufacturer !=  null){
+            if (Objects.nonNull(updatedManufacturer) && !"".equalsIgnoreCase(updatedManufacturer.getManufacturerName())){
+                dbManufacturer.setManufacturerName(updatedManufacturer.getManufacturerName());
+              return   manufacturerDAO.save(dbManufacturer);
+            }
+        }
+        return dbManufacturer;
+    }
+
 }
