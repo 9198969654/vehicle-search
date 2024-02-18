@@ -41,11 +41,19 @@ public class ManufacturerServiceImpl implements ManufacturerService{
     public Manufacturer updateManufacturer(int id,Manufacturer updatedManufacturer) {
         Manufacturer dbManufacturer = getManufactureForId(id);
 
-        if (dbManufacturer !=  null){
-            if (Objects.nonNull(updatedManufacturer) && !"".equalsIgnoreCase(updatedManufacturer.getManufacturerName())){
+        if (dbManufacturer !=  null && Objects.nonNull(updatedManufacturer)){
+
+            //update Name
+            if (Objects.nonNull(updatedManufacturer.getManufacturerName()) && !"".equalsIgnoreCase(updatedManufacturer.getManufacturerName())){
                 dbManufacturer.setManufacturerName(updatedManufacturer.getManufacturerName());
               return   manufacturerDAO.save(dbManufacturer);
             }
+
+            //Update Country of Origin
+            if (Objects.nonNull(updatedManufacturer.getCountryOfOrigin()) && !"".equalsIgnoreCase(updatedManufacturer.getCountryOfOrigin())){
+                dbManufacturer.setCountryOfOrigin(updatedManufacturer.getCountryOfOrigin());
+            }
+            return manufacturerDAO.save(dbManufacturer);
         }
         return dbManufacturer;
     }
