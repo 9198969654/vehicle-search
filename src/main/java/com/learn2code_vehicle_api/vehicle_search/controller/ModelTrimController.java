@@ -1,6 +1,7 @@
 package com.learn2code_vehicle_api.vehicle_search.controller;
 
 import com.learn2code_vehicle_api.vehicle_search.entity.Model;
+import com.learn2code_vehicle_api.vehicle_search.entity.TrimType;
 import com.learn2code_vehicle_api.vehicle_search.service.impl.ModelTrimService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,4 +23,29 @@ public class ModelTrimController {
       Model savedRecord =   modelTrimService.saveModel(model);
       return new ResponseEntity<>(savedRecord, HttpStatus.CREATED);
     }
+
+    @PostMapping("/trim-type")
+    public ResponseEntity<TrimType> createTrimType(@RequestBody  TrimType trimType){
+      TrimType savedTrim =   modelTrimService.saveTrimType(trimType);
+      return ResponseEntity.status(HttpStatus.CREATED).body(savedTrim);
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

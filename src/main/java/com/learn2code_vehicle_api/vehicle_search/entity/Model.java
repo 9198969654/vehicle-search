@@ -21,10 +21,27 @@ public class Model {
     @Column(name = "model_name")
     private String modelName;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(name = "model_trim",
             joinColumns = @JoinColumn(name = "model_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "trim_id", referencedColumnName = "id")
     )
     private List<TrimType> trimTypeList;
+
+  @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    private Manufacturer manufacturer;
 }
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
