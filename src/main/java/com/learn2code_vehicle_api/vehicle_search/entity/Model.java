@@ -31,7 +31,7 @@ public class Model {
   @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private Manufacturer manufacturer;
 }
-
+//
 
 
 
