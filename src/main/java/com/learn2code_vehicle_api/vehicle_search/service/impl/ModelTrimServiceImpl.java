@@ -5,10 +5,12 @@ import com.learn2code_vehicle_api.vehicle_search.dao.TrimTypeDAO;
 import com.learn2code_vehicle_api.vehicle_search.entity.Model;
 import com.learn2code_vehicle_api.vehicle_search.entity.TrimType;
 import com.learn2code_vehicle_api.vehicle_search.exception.ModelNotFoundException;
+import com.learn2code_vehicle_api.vehicle_search.exception.TrimTypeNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -42,14 +44,21 @@ public class ModelTrimServiceImpl implements ModelTrimService{
     @Override
     public Model modifyModel(int id, Model model) throws ModelNotFoundException {
       Model dbModel =   getModelById(id);
-      if (dbModel != null){
-
+      if (dbModel != null  && Objects.nonNull(model)){
+          if (Objects.nonNull(model.getModelName()) && !"".equalsIgnoreCase(model.getModelName())){
+              dbModel.setModelName(model.getModelName());
+          }
+          modelDAO.save(dbModel);
       }
         return null;
     }
 
     @Override
-    public TrimType modifyTrimType(int id,TrimType trimType) {
+    public TrimType modifyTrimType(int id,TrimType trimType) throws TrimTypeNotFoundException {
+        Optional<TrimType> trimTypeOptional = trimTypeDAO.findById(id);
+        if (trimTypeOptional.isPresent()){
+            throw new TrimTypeNotFoundException("No Trim Type found in DB with ID: " +id);
+        }
         return null;
     }
 
