@@ -48,19 +48,24 @@ public class ModelTrimServiceImpl implements ModelTrimService{
           if (Objects.nonNull(model.getModelName()) && !"".equalsIgnoreCase(model.getModelName())){
               dbModel.setModelName(model.getModelName());
           }
-          modelDAO.save(dbModel);
+         dbModel = modelDAO.save(dbModel);
       }
-        return null;
+        return dbModel;
     }
 
     @Override
     public TrimType modifyTrimType(int id,TrimType trimType) throws TrimTypeNotFoundException {
-        Optional<TrimType> trimTypeOptional = trimTypeDAO.findById(id);
-        if (trimTypeOptional.isPresent()){
-            throw new TrimTypeNotFoundException("No Trim Type found in DB with ID: " +id);
+
+        TrimType dbTrimType = getTrimTypeById(id);
+        if (dbTrimType != null  && Objects.nonNull(trimType)){
+            if (Objects.nonNull(trimType.getTrimType()) && !"".equalsIgnoreCase(trimType.getTrimType())){
+                dbTrimType.setTrimType(trimType.getTrimType());
+            }
+           dbTrimType =  trimTypeDAO.save(dbTrimType);
         }
-        return null;
+        return dbTrimType;
     }
+
 
     @Override
     public Model getModelById(int id) throws ModelNotFoundException {
@@ -72,8 +77,13 @@ public class ModelTrimServiceImpl implements ModelTrimService{
     }
 
     @Override
-    public TrimType getTrimTypeById(int id) {
-        return null;
+    public TrimType getTrimTypeById(int id) throws TrimTypeNotFoundException {
+
+        Optional<TrimType> trimTypeOptional = trimTypeDAO.findById(id);
+        if (trimTypeOptional.isPresent()){
+            throw new TrimTypeNotFoundException("No Trim Type found in DB with ID: " +id);
+        }
+        return trimTypeOptional.get();
     }
 }
 

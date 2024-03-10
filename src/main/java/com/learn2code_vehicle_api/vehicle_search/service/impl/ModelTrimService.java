@@ -15,5 +15,5 @@ public interface ModelTrimService {
     Model modifyModel(int id,Model model) throws ModelNotFoundException;
     TrimType modifyTrimType(int id, TrimType trimType) throws TrimTypeNotFoundException;
     Model getModelById(int id) throws ModelNotFoundException;
-    TrimType getTrimTypeById(int id);
+    TrimType getTrimTypeById(int id) throws TrimTypeNotFoundException;
 }
