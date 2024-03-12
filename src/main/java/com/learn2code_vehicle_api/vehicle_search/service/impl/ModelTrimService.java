@@ -2,6 +2,7 @@ package com.learn2code_vehicle_api.vehicle_search.service.impl;
 
 import com.learn2code_vehicle_api.vehicle_search.entity.Model;
 import com.learn2code_vehicle_api.vehicle_search.entity.TrimType;
+import com.learn2code_vehicle_api.vehicle_search.exception.ManufacturerNotFoundException;
 import com.learn2code_vehicle_api.vehicle_search.exception.ModelNotFoundException;
 import com.learn2code_vehicle_api.vehicle_search.exception.TrimTypeNotFoundException;
 
@@ -18,4 +19,7 @@ public interface ModelTrimService {
     TrimType getTrimTypeById(int id) throws TrimTypeNotFoundException;
     void deleteModelById(int id) throws ModelNotFoundException;
     void deleteTrimType(int id) throws TrimTypeNotFoundException;
+    List<Model> getModelsByManufacturerId(int manufacturerId) throws ManufacturerNotFoundException;
+    List<Model> getModelsByManufacturerName(String name) throws ManufacturerNotFoundException;
+
 }

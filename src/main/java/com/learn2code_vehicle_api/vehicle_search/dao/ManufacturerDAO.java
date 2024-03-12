@@ -4,4 +4,5 @@ import com.learn2code_vehicle_api.vehicle_search.entity.Manufacturer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ManufacturerDAO extends JpaRepository<Manufacturer, Integer> {
+    Manufacturer findBymanufacturerName(String name);
 }
