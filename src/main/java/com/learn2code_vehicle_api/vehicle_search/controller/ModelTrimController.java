@@ -55,9 +55,19 @@ public class ModelTrimController {
     public ResponseEntity<TrimType> updateTrimType(@PathVariable int id, @RequestBody TrimType trimType) throws TrimTypeNotFoundException {
         TrimType dbTrim= modelTrimService.modifyTrimType(id, trimType);
         return ResponseEntity.ok(dbTrim);
-
-
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteModel(@PathVariable int id) throws ModelNotFoundException {
+        modelTrimService.deleteModelById(id);
+        return new ResponseEntity<>("Model is deleted from DB for ID: " +id, HttpStatus.OK);
+    }
+
+//    @DeleteMapping("/trim-type/{id}")
+//    public ResponseEntity<String> deleteTrimType(@PathVariable int id) throws TrimTypeNotFoundException {
+//        modelTrimService.deleteTrimType(id);
+//        return ResponseEntity.status(HttpStatus.OK).body("Trim Type is deleted Successfully from DB for ID: " +id);
+//    }
 
 }
 
