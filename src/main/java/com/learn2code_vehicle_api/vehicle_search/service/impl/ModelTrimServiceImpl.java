@@ -1,9 +1,12 @@
 package com.learn2code_vehicle_api.vehicle_search.service.impl;
 
+import com.learn2code_vehicle_api.vehicle_search.dao.ManufacturerDAO;
 import com.learn2code_vehicle_api.vehicle_search.dao.ModelDAO;
 import com.learn2code_vehicle_api.vehicle_search.dao.TrimTypeDAO;
+import com.learn2code_vehicle_api.vehicle_search.entity.Manufacturer;
 import com.learn2code_vehicle_api.vehicle_search.entity.Model;
 import com.learn2code_vehicle_api.vehicle_search.entity.TrimType;
+import com.learn2code_vehicle_api.vehicle_search.exception.ManufacturerNotFoundException;
 import com.learn2code_vehicle_api.vehicle_search.exception.ModelNotFoundException;
 import com.learn2code_vehicle_api.vehicle_search.exception.TrimTypeNotFoundException;
 import jakarta.transaction.Transactional;
@@ -23,6 +26,9 @@ public class ModelTrimServiceImpl implements ModelTrimService{
 
     @Autowired
     private TrimTypeDAO trimTypeDAO;
+
+    @Autowired
+    private ManufacturerDAO manufacturerDAO;
 
     @Override
     public Model saveModel(Model model) {
@@ -109,6 +115,29 @@ public class ModelTrimServiceImpl implements ModelTrimService{
         System.out.println("*****Unable to delete trim  type check DB Connection:" +e.getMessage());
         e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<Model> getModelsByManufacturerId(int manufacturerId) throws ManufacturerNotFoundException {
+       Optional<Manufacturer> dbManufacturer =  manufacturerDAO.findById(manufacturerId);
+       if (dbManufacturer.isPresent()){
+           throw new ManufacturerNotFoundException("No manufacturer found in ID:" +manufacturerId);
+       }
+      List<Model> dbModels =  modelDAO.findByManufacturer(dbManufacturer.get());
+
+        return dbModels;
+    }
+
+    @Override
+    public List<Model> getModelsByManufacturerName(String name) throws ManufacturerNotFoundException {
+      Manufacturer dbManufacturer =   manufacturerDAO.findBymanufacturerName(name);
+      if (dbManufacturer == null){
+          throw new ManufacturerNotFoundException("No Manufacturer found in DB from name: "+name);
+      }
+      int manufacturerId = dbManufacturer.getId();
+      List<Model> dbModels = modelDAO.fetchModelsBasedManufacturerID(manufacturerId);
+
+        return dbModels;
     }
 }
 
