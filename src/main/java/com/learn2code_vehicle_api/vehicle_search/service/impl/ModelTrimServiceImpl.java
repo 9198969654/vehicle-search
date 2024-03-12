@@ -6,6 +6,7 @@ import com.learn2code_vehicle_api.vehicle_search.entity.Model;
 import com.learn2code_vehicle_api.vehicle_search.entity.TrimType;
 import com.learn2code_vehicle_api.vehicle_search.exception.ModelNotFoundException;
 import com.learn2code_vehicle_api.vehicle_search.exception.TrimTypeNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class ModelTrimServiceImpl implements ModelTrimService{
 
     @Autowired
@@ -84,6 +86,29 @@ public class ModelTrimServiceImpl implements ModelTrimService{
             throw new TrimTypeNotFoundException("No Trim Type found in DB with ID: " +id);
         }
         return trimTypeOptional.get();
+    }
+
+    @Override
+    public void deleteModelById(int id) throws ModelNotFoundException {
+        Model dbModel= getModelById(id);
+        try {
+            modelDAO.deleteById(id);
+        }catch (Exception e){
+            System.out.println("**********Unable to Delete Model check DB Connection: " +e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+        @Override
+        public void deleteTrimType(int id) throws TrimTypeNotFoundException {
+        TrimType dbTrim = getTrimTypeById(id);
+        try {
+        trimTypeDAO.deleteById(id);
+
+        }catch (Exception e){
+        System.out.println("*****Unable to delete trim  type check DB Connection:" +e.getMessage());
+        e.printStackTrace();
+        }
     }
 }
 
